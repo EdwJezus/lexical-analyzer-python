@@ -70,11 +70,12 @@ def Comparador():
 ######################## Função Impressor
 
 def Impressor():
-    print("\n=============================")
-    print("ENTRADA  |  VALOR  |  TIPO")
+    print("\n" + ("=")*40)
+    print(f"{'ENTRADA':<9}|{'VALOR':<15}|{'TIPO':<12}")
+    print("-"*40)
     for t in tabela:
-        print(f"{t}")
-    print("=============================\n")
+        print(f"{t[0]:<9}|{t[1]:<15}|{t[2]:<12}")
+    print(("=")*40 + "\n")
 
     print(tokens)
 
