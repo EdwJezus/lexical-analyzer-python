@@ -5,7 +5,7 @@ import re
 # * NÚMEROS FLUTUANTES: formados por vírgula e não ponto (estamos no Brasil).
 # * COMENTARIOS: os mesmos do bash (#).
 
-########################
+######################## Variaveis
 
 i = 1
 tabela = []
@@ -13,20 +13,22 @@ tokens = []
 corta_comentario = []
 partes = []
 texto = '''int ab Ab AB Abbb AbbbB\n 
-           43 12,45  # ##comment Pa Ab\n
+           43 12,45  Ab # ##comment Pa Ab\n
            Cb TV float while 97'''
 
-linhas = texto.splitlines()
+######################## Função Fragmentador
 
-for l in linhas:
-    corta_comentario.append(l.split("#")[0])
+def Fragmentador():
+    linhas = texto.splitlines() #divide linha
+    for l in linhas:
+        corta_comentario.append(l.split("#")[0]) #corta comentarios
+    for c in corta_comentario:
+        partes.append(c.split()) #corta palavras
+    for parte in partes:
+        for p in parte:
+            print(p) #debug
 
-for c in corta_comentario:
-    partes.append(c.split())
-
-for parte in partes:
-    for p in parte:
-        print(p) #debug
+######################## Função Processador
 
 def Processador(p, tipo):
         global i
@@ -37,37 +39,42 @@ def Processador(p, tipo):
         else:
             print(f"{p} Já existe!") #debug
 
-print("\n--------------- \n")
+######################## Função Comparador
 
-########################
+def Comparador():
+    for parte in partes:
+        for p in parte:
+            #################################### RESERVADA
+            if re.match(r"^(int|double|char|float|if|while|for)$", p):
+                print(f"É Palavra reservada: {p}") #debug
+                Processador(p, "reservada")
+            #################################### IDENTIFICADOR
+            elif re.match(r"^([A-Z]+[a-z]*)+$", p):
+                print(f"É Identificador: {p}") #debug
+                Processador(p, "identificador")
+            #################################### FLOAT
+            elif re.match(r"(^[0-9]+,[0-9]+$)", p):
+                print(f"É Numero Flutuante: {p}") #debug
+                Processador(p, "float_number")
+            #################################### INT
+            elif re.match(r"(^[0-9]+$)", p):
+                print(f"É Numero Inteiro: {p}") #debug
+                Processador(p, "int_number")
 
-for parte in partes:
-    for p in parte:
-        #################################### RESERVADA
-        if re.match(r"^(int|double|char|float|if|while|for)$", p):
-            print(f"É Palavra reservada: {p}") #debug
-            Processador(p, "reservada")
-        #################################### IDENTIFICADOR
-        elif re.match(r"^([A-Z]+[a-z]*)+$", p):
-            print(f"É Identificador: {p}") #debug
-            Processador(p, "identificador")
-        #################################### FLOAT
-        elif re.match(r"(^[0-9]+,[0-9]+$)", p):
-            print(f"É Numero Flutuante: {p}") #debug
-            Processador(p, "float_number")
-        #################################### INT
-        elif re.match(r"(^[0-9]+$)", p):
-            print(f"É Numero Inteiro: {p}") #debug
-            Processador(p, "int_number")
+######################### Função Main
 
-#########################
+def main():
+    Fragmentador()
+    Comparador()
 
-print("\n=============================")
-print("ENTRADA  |  VALOR  |  TIPO")
-for t in tabela:
-    print(f"{t}")
-print("=============================\n")
+    print("\n=============================")
+    print("ENTRADA  |  VALOR  |  TIPO")
+    for t in tabela:
+        print(f"{t}")
+    print("=============================\n")
 
-#########################
+    print(tokens)
 
-print(tokens)
+######################### Saída
+
+main()
