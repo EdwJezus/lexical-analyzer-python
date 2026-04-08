@@ -12,9 +12,13 @@ tabela = []
 tokens = []
 corta_comentario = []
 partes = []
-texto = '''int ab Ab AB Abbb AbbbB\n 
-           43 12,45  Ab # ##comment Pa Ab\n
-           Cb TV float while 97'''
+texto = '''int Ab ;\n
+            # int Xb poderia\n 
+            doble teste\n
+            float Exemplo # sera minha variavel de exemplo\n
+            # double Exemplo2 seria melhor?\n
+            Exemplo = 3456,567\n
+            while ( Ab < 500 )'''
 
 ######################## Função Fragmentador
 
@@ -49,7 +53,7 @@ def Comparador():
                 print(f"É Palavra reservada: {p}") #debug
                 Processador(p, "reservada")
             #################################### IDENTIFICADOR
-            elif re.match(r"^([A-Z]+[a-z]*)+$", p):
+            elif re.match(r"^[A-Z][a-zA-Z]*$", p):
                 print(f"É Identificador: {p}") #debug
                 Processador(p, "identificador")
             #################################### FLOAT
