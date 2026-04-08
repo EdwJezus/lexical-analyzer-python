@@ -1,5 +1,7 @@
 import re
 
+######################## Instruções
+
 # * PALAVRAS RESERVADAS: int, double, char, float, if, while, for.
 # * IDENTIFICADORES: sempre começam com letras maiúsculas e só podem ser letras.
 # * NÚMEROS FLUTUANTES: formados por vírgula e não ponto (estamos no Brasil).
@@ -8,18 +10,24 @@ import re
 ######################## Variaveis
 
 i = 1
-tabela = []
-tokens = []
+texto = ""
 corta_comentario = []
 corta_simbolo = []
 partes = []
-texto = '''int Ab;\n
-            # int Xb poderia\n 
-            doble teste\n
-            float Exemplo # sera minha variavel de exemplo\n
-            # double Exemplo2 seria melhor?\n
-            Exemplo = 3456,567\n
-            while (Ab < 500)'''
+tabela = []
+tokens = []
+
+######################## Função Captador
+
+def Captador():
+    global texto
+    print("Digite o código a ser analisado: (CRTL+Z para finalizar)")
+    while True:
+        try:
+            linha = input()
+            texto += linha + "\n"
+        except EOFError:
+            break
 
 ######################## Função Fragmentador
 
@@ -59,12 +67,9 @@ def Comparador():
             elif re.match(r"(^[0-9]+$)", p):
                 Processador(p, "int_number")
 
-######################### Função Main
+######################## Função Impressor
 
-def main():
-    Fragmentador()
-    Comparador()
-
+def Impressor():
     print("\n=============================")
     print("ENTRADA  |  VALOR  |  TIPO")
     for t in tabela:
@@ -72,6 +77,14 @@ def main():
     print("=============================\n")
 
     print(tokens)
+
+######################### Função Main
+
+def main():
+    Captador()
+    Fragmentador()
+    Comparador()
+    Impressor()
 
 ######################### Saída
 
