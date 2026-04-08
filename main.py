@@ -11,14 +11,15 @@ i = 1
 tabela = []
 tokens = []
 corta_comentario = []
+corta_simbolo = []
 partes = []
-texto = '''int Ab ;\n
+texto = '''int Ab;\n
             # int Xb poderia\n 
             doble teste\n
             float Exemplo # sera minha variavel de exemplo\n
             # double Exemplo2 seria melhor?\n
             Exemplo = 3456,567\n
-            while ( Ab < 500 )'''
+            while (Ab < 500)'''
 
 ######################## Função Fragmentador
 
@@ -27,7 +28,9 @@ def Fragmentador():
     for l in linhas:
         corta_comentario.append(l.split("#")[0]) #corta comentarios
     for c in corta_comentario:
-        partes.append(c.split()) #corta palavras
+        corta_simbolo.append(re.sub(r"([;=()<>])", r" \1 ", c)) #corta simbolos
+    for s in corta_simbolo:
+        partes.append(s.split()) #corta palavras
 
 ######################## Função Processador
 
